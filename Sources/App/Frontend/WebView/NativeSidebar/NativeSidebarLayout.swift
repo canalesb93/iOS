@@ -2,8 +2,8 @@ import UIKit
 
 /// Proportions of the native sidebar's drawer and docked column.
 enum NativeSidebarLayout {
-    static let drawerWidthFraction: CGFloat = 0.84
-    static let maximumDrawerWidth: CGFloat = 340
+    static let drawerWidthFraction: CGFloat = 0.8
+    static let maximumDrawerWidth: CGFloat = 320
     static let dockedWidth: CGFloat = 320
     /// How much smaller the content card gets when fully open.
     static let contentScaleReduction: CGFloat = 0.1
