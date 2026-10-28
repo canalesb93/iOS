@@ -15,8 +15,12 @@ final class NativeSidebarViewModel: ObservableObject {
     @Published private(set) var selectedItemId: String?
     @Published private(set) var currentPath: String?
     @Published var isEditing = false
+    @Published var isShowingNotifications = false
 
+    /// Switches panels: replaces the current history entry.
     var onNavigate: ((String) -> Void)?
+    /// Drills into a page: pushes onto the frontend's history so the back swipe returns.
+    var onOpenPath: ((String) -> Void)?
     var onQuickSearch: (() -> Void)?
     var onAssist: (() -> Void)?
     var onShowNotifications: (() -> Void)?
@@ -84,7 +88,7 @@ final class NativeSidebarViewModel: ObservableObject {
         switch item.kind {
         case .notifications:
             drawer.close()
-            onShowNotifications?()
+            isShowingNotifications = true
         case .panel, .profile:
             guard let path = item.navigationPath else { return }
             withAnimation(DesignSystem.Motion.snappy) {
@@ -94,6 +98,19 @@ final class NativeSidebarViewModel: ObservableObject {
             // Re-selecting the current panel's row takes it back to its top, like re-tapping a tab.
             onNavigate?(path)
         }
+    }
+
+    /// A link inside a notification: frontend paths (`/config/updates`) open in the web view behind the
+    /// sheet, everything else goes to the system.
+    func openNotificationLink(_ url: URL) -> Bool {
+        guard url.scheme == nil, url.host == nil, url.path.hasPrefix("/") else { return false }
+        isShowingNotifications = false
+        var path = url.path
+        if let query = url.query, !query.isEmpty {
+            path += "?" + query
+        }
+        onOpenPath?(path)
+        return true
     }
 
     func quickSearch() {

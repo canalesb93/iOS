@@ -152,6 +152,9 @@ final class HomeAssistantViewModel: ObservableObject {
         nativeSidebar.onNavigate = { [weak self] path in
             self?.webViewController?.openSidebarPath(path, replace: true)
         }
+        nativeSidebar.onOpenPath = { [weak self] path in
+            self?.webViewController?.openSidebarPath(path)
+        }
         nativeSidebar.onQuickSearch = { [weak self] in
             self?.webViewController?.webViewGestureHandler.handleGestureAction(.quickSearch)
         }

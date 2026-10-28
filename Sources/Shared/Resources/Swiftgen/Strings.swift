@@ -4305,6 +4305,29 @@ public enum L10n {
     }
   }
 
+  public enum NativeNotifications {
+    /// Dismiss
+    public static var dismiss: String { return L10n.tr("Localizable", "native_notifications.dismiss") }
+    /// Dismiss All
+    public static var dismissAll: String { return L10n.tr("Localizable", "native_notifications.dismiss_all") }
+    /// Notifications
+    public static var title: String { return L10n.tr("Localizable", "native_notifications.title") }
+    public enum DismissAll {
+      /// Dismiss all notifications?
+      public static var confirmationTitle: String { return L10n.tr("Localizable", "native_notifications.dismiss_all.confirmation_title") }
+    }
+    public enum DismissFailed {
+      /// Couldn’t dismiss notification
+      public static var title: String { return L10n.tr("Localizable", "native_notifications.dismiss_failed.title") }
+    }
+    public enum Empty {
+      /// You’re all caught up. New notifications from Home Assistant will show up here.
+      public static var description: String { return L10n.tr("Localizable", "native_notifications.empty.description") }
+      /// No notifications
+      public static var title: String { return L10n.tr("Localizable", "native_notifications.empty.title") }
+    }
+  }
+
   public enum NativeSidebar {
     /// App Settings
     public static var appSettings: String { return L10n.tr("Localizable", "native_sidebar.app_settings") }

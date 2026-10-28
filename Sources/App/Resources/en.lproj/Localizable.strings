@@ -1266,6 +1266,13 @@ This server requires a client certificate (mTLS) but the operation was cancelled
 "mtls.beta.info" = "This is a beta feature, if you experience any issues, please report them using the button below.\
 \
 Currently mTLS is only supported on iOS 17+, it may present issues related to displaying notification attachments, Assist TTS audio and it will not fully work on Apple Watch.";
+"native_notifications.dismiss" = "Dismiss";
+"native_notifications.dismiss_all" = "Dismiss All";
+"native_notifications.dismiss_all.confirmation_title" = "Dismiss all notifications?";
+"native_notifications.dismiss_failed.title" = "Couldn’t dismiss notification";
+"native_notifications.empty.description" = "You’re all caught up. New notifications from Home Assistant will show up here.";
+"native_notifications.empty.title" = "No notifications";
+"native_notifications.title" = "Notifications";
 "native_sidebar.accessibility.close_sidebar" = "Close Sidebar";
 "native_sidebar.accessibility.open_sidebar" = "Open Sidebar";
 "native_sidebar.app_settings" = "App Settings";

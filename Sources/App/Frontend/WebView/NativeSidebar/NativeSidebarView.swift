@@ -212,6 +212,14 @@ struct NativeSidebarView: View {
             }
             .scrollIndicators(.hidden)
         }
+        .sheet(isPresented: $viewModel.isShowingNotifications) {
+            NativeNotificationsView(
+                viewModel: NativeNotificationsViewModel(server: viewModel.server),
+                onOpenLink: viewModel.openNotificationLink
+            )
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
+        }
         .sheet(isPresented: $isShowingEditor) {
             NativeSidebarEditView(viewModel: viewModel)
                 .presentationDetents([.medium, .large])
