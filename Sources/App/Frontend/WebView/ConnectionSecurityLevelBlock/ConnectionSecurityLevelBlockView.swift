@@ -190,7 +190,7 @@ struct ConnectionSecurityLevelBlockView: View {
     }
 
     private var homeNetworkView: some View {
-        NavigationStack(content: {
+        NavigationStack(root: {
             HomeNetworkInputView(onNext: { context in
                 server.update { info in
                     if let ssid = context.networkName {

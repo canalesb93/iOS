@@ -38,6 +38,8 @@ struct DownloadManagerView: View {
                     }
                 }
             }
+            .sensoryFeedback(.success, trigger: viewModel.finished) { _, finished in finished }
+            .sensoryFeedback(.error, trigger: viewModel.failed) { _, failed in failed }
         }
     }
 

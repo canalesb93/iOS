@@ -67,13 +67,9 @@ struct PermissionRequestView: View {
                 .padding()
             }
             if showCloseButton {
-                Button {
+                CloseButton(tint: Color(uiColor: .tertiaryLabel), size: .large) {
                     dismissAction?()
                     dismiss()
-                } label: {
-                    Image(systemSymbol: .xmarkCircleFill)
-                        .foregroundStyle(Color(uiColor: .tertiaryLabel))
-                        .font(.title)
                 }
                 .padding()
             }

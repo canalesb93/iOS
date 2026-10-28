@@ -91,8 +91,8 @@ struct EntityPicker: View {
         }
         #endif
         #if !targetEnvironment(macCatalyst)
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
+        .presentationDetents([.large])
+        .presentationDragIndicator(.visible)
         #endif
     }
 
