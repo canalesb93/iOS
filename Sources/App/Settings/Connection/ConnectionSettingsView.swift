@@ -78,7 +78,7 @@ struct ConnectionSettingsView: View {
             ServerHowItWorksSheet(viewModel: viewModel)
         }
         .sheet(isPresented: $showLocationPrivacySheet) {
-            NavigationView {
+            NavigationStack {
                 PrivacyPickerView(
                     title: L10n.Settings.ConnectionSection.LocationSendType.title,
                     options: ServerLocationPrivacy.allCases,
@@ -91,7 +91,6 @@ struct ConnectionSettingsView: View {
                         ? Version.updateLocationGPSOptional.coreRequiredString
                         : nil
                 )
-                .navigationViewStyle(.stack)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         CloseButton {
@@ -100,9 +99,11 @@ struct ConnectionSettingsView: View {
                     }
                 }
             }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showSensorPrivacySheet) {
-            NavigationView {
+            NavigationStack {
                 PrivacyPickerView(
                     title: L10n.Settings.ConnectionSection.SensorSendType.title,
                     options: ServerSensorPrivacy.allCases,
@@ -113,7 +114,6 @@ struct ConnectionSettingsView: View {
                     isDisabled: false,
                     footerMessage: nil
                 )
-                .navigationViewStyle(.stack)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         CloseButton {
@@ -122,6 +122,8 @@ struct ConnectionSettingsView: View {
                     }
                 }
             }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
         .onDisappear {
             onDismiss?()

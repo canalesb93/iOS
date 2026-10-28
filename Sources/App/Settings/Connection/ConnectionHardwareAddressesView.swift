@@ -40,10 +40,9 @@ struct ConnectionHardwareAddressesView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ConnectionHardwareAddressesView(
             viewModel: ConnectionURLViewModel(server: ServerFixture.standard, urlType: .internal)
         )
     }
-    .navigationViewStyle(.stack)
 }

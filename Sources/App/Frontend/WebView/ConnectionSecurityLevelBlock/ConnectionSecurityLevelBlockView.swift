@@ -21,11 +21,10 @@ struct ConnectionSecurityLevelBlockView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 content
             }
-            .navigationViewStyle(.stack)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -86,7 +85,6 @@ struct ConnectionSecurityLevelBlockView: View {
                     }
                 }
         }
-        .navigationViewStyle(.stack)
     }
 
     private var content: some View {
@@ -192,7 +190,7 @@ struct ConnectionSecurityLevelBlockView: View {
     }
 
     private var homeNetworkView: some View {
-        NavigationView(content: {
+        NavigationStack(root: {
             HomeNetworkInputView(onNext: { context in
                 server.update { info in
                     if let ssid = context.networkName {
@@ -205,7 +203,6 @@ struct ConnectionSecurityLevelBlockView: View {
                     showHomeNetworkSettings = false
                 }
             })
-            .navigationViewStyle(.stack)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     CloseButton {
@@ -220,7 +217,7 @@ struct ConnectionSecurityLevelBlockView: View {
     }
 
     private var connectionPreferencesView: some View {
-        NavigationView {
+        NavigationStack {
             OnboardingPermissionsNavigationView(
                 onboardingServer: server,
                 steps: [.localAccess, .updatePreferencesSuccess],
@@ -233,7 +230,6 @@ struct ConnectionSecurityLevelBlockView: View {
                     }
                 }
             }
-            .navigationViewStyle(.stack)
         }
         .onDisappear {
             reload()

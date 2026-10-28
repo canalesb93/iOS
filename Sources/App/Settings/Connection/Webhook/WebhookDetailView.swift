@@ -116,7 +116,7 @@ struct WebhookDetailView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         WebhookDetailView(server: ServerFixture.withRemoteConnection)
     }
 }

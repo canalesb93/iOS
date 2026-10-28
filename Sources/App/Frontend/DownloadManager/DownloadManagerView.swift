@@ -13,7 +13,7 @@ struct DownloadManagerView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: .zero) {
                 content
                 Spacer()
@@ -38,8 +38,9 @@ struct DownloadManagerView: View {
                     }
                 }
             }
+            .sensoryFeedback(.success, trigger: viewModel.finished) { _, finished in finished }
+            .sensoryFeedback(.error, trigger: viewModel.failed) { _, failed in failed }
         }
-        .navigationViewStyle(.stack)
     }
 
     @ViewBuilder

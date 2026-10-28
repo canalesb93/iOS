@@ -163,7 +163,7 @@ struct CustomWidgetsListView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         CustomWidgetsListView()
     }
 }

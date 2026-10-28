@@ -314,10 +314,9 @@ struct GeneralSettingsView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         GeneralSettingsView()
     }
-    .navigationViewStyle(.stack)
 }
 
 extension GeneralSettingsView: SettingsScreenSearchable {

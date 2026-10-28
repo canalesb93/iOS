@@ -241,7 +241,7 @@ struct SensorListView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         SensorListView()
     }
 }

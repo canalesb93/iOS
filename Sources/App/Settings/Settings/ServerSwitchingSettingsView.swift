@@ -72,10 +72,9 @@ struct ServerSwitchingSettingsView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ServerSwitchingSettingsView()
     }
-    .navigationViewStyle(.stack)
 }
 
 extension ServerSwitchingSettingsView: SettingsScreenSearchable {

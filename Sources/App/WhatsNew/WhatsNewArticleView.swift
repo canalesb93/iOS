@@ -60,7 +60,7 @@ struct WhatsNewArticleView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         WhatsNewArticleView(article: ArticleMessage(
             icon: .sfSymbol(.boltFill),
             title: "Energy widget",

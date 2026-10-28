@@ -321,7 +321,7 @@ struct ConnectionURLView: View {
 struct ConnectionURLView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NavigationView {
+            NavigationStack {
                 ConnectionURLView(
                     server: ServerFixture.standard,
                     urlType: .internal
@@ -329,7 +329,7 @@ struct ConnectionURLView_Previews: PreviewProvider {
             }
             .previewDisplayName("Internal URL")
 
-            NavigationView {
+            NavigationStack {
                 ConnectionURLView(
                     server: ServerFixture.standard,
                     urlType: .external

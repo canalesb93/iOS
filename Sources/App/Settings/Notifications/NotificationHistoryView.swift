@@ -370,7 +370,7 @@ final class NotificationHistoryViewModel: ObservableObject {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         NotificationHistoryView()
     }
 }

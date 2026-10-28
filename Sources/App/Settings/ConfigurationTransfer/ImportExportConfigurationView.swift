@@ -181,7 +181,7 @@ struct ImportExportConfigurationView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ImportExportConfigurationView()
     }
 }

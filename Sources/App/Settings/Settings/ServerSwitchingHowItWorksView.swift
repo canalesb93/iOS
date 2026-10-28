@@ -80,8 +80,7 @@ struct ServerSwitchingHowItWorksView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ServerSwitchingHowItWorksView()
     }
-    .navigationViewStyle(.stack)
 }

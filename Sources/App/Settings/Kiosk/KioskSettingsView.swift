@@ -242,7 +242,7 @@ private extension View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         KioskSettingsView()
     }
 }

@@ -114,7 +114,7 @@ struct AssistPromptMagicItemView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         AssistPromptMagicItemView(mode: .add) { _ in }
     }
 }

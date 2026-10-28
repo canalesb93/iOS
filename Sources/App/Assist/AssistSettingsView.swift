@@ -27,7 +27,7 @@ struct AssistSettingsView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 startMode
                 muteToggle
@@ -52,6 +52,8 @@ struct AssistSettingsView: View {
                 }
             }
         }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
     }
 
     private var startMode: some View {

@@ -14,7 +14,7 @@ struct ServerSelectionListView: View {
     let expandAction: () -> Void
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 if let prompt {
                     promptSection(prompt)
@@ -46,7 +46,6 @@ struct ServerSelectionListView: View {
                 }
             }
         }
-        .navigationViewStyle(.stack)
         .onAppear(perform: updateActiveServer)
     }
 

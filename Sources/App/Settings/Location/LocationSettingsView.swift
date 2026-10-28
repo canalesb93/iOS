@@ -300,7 +300,7 @@ private struct ZoneMapRepresentable: UIViewRepresentable {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         LocationSettingsView()
     }
 }

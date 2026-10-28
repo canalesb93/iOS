@@ -32,7 +32,7 @@ struct AssistPipelinePicker: View {
             fetchPipelines()
         }
         .sheet(isPresented: $showList) {
-            NavigationView {
+            NavigationStack {
                 List {
                     if isLoading {
                         Section {
@@ -79,7 +79,6 @@ struct AssistPipelinePicker: View {
                 .onAppear {
                     fetchPipelines()
                 }
-                .navigationViewStyle(.stack)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         CloseButton {
@@ -95,6 +94,8 @@ struct AssistPipelinePicker: View {
                     }
                 }
             }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
     }
 

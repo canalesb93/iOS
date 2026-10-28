@@ -125,7 +125,7 @@ struct GesturesSetupView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         GesturesSetupView()
     }
 }

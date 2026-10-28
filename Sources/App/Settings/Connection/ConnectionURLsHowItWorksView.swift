@@ -148,8 +148,7 @@ struct ConnectionURLsHowItWorksView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ConnectionURLsHowItWorksView(server: ServerFixture.withRemoteConnection)
     }
-    .navigationViewStyle(.stack)
 }

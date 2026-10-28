@@ -58,7 +58,7 @@ struct KioskSettingsEntryCustomizationView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         KioskSettingsEntryCustomizationView(viewModel: KioskSettingsViewModel())
     }
 }

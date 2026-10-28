@@ -245,7 +245,7 @@ private struct KeychainExplorerError: LocalizedError {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         KeychainExplorerView()
     }
 }

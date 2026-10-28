@@ -69,13 +69,13 @@ extension AppLabsView: SettingsScreenSearchable {
 }
 
 #Preview("Features") {
-    NavigationView {
+    NavigationStack {
         AppLabsView(features: AppLabsFeature.allCases)
     }
 }
 
 #Preview("Empty") {
-    NavigationView {
+    NavigationStack {
         AppLabsView(features: [])
     }
 }

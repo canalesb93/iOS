@@ -43,7 +43,6 @@ struct ServerActionPickerList: View {
             }
         }
         .searchable(text: $searchTerm)
-        .navigationViewStyle(.stack)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 CloseButton {
@@ -72,7 +71,7 @@ struct ServerActionPickerList: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ServerActionPickerList(
             actions: [
                 .init(domain: "light", service: "turn_on", name: "Turn on", actionDescription: nil),

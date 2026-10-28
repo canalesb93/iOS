@@ -39,6 +39,7 @@ struct NotificationSnoozeActionsView: View {
                 viewModel.add(minutes: minutes)
             }
             .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
         }
     }
 
@@ -83,7 +84,7 @@ private struct NotificationSnoozeActionAddView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     Stepper(value: $minutes, in: 5 ... 1440, step: 5) {
@@ -113,7 +114,6 @@ private struct NotificationSnoozeActionAddView: View {
                 }
             }
         }
-        .navigationViewStyle(.stack)
     }
 }
 

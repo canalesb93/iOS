@@ -86,12 +86,11 @@ struct WatchConfigurationView: View {
                     }
                 }
             case .assistPrompt:
-                NavigationView {
+                NavigationStack {
                     AssistPromptMagicItemView(mode: .add) { itemToAdd in
                         viewModel.addItem(itemToAdd)
                     }
                 }
-                .navigationViewStyle(.stack)
             }
         })
         .alert(viewModel.errorMessage ?? L10n.errorLabel, isPresented: $viewModel.showError) {
@@ -190,6 +189,7 @@ struct WatchConfigurationView: View {
             addFolderForm
         }
         .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
     }
 
     private var addFolderForm: some View {

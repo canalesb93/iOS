@@ -17,10 +17,9 @@ struct SettingsServersView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         SettingsServersView()
     }
-    .navigationViewStyle(.stack)
 }
 
 extension SettingsServersView: SettingsScreenSearchable {

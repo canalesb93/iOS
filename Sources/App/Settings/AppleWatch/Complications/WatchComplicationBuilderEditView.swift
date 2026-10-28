@@ -190,7 +190,7 @@ struct WatchComplicationBuilderEditView: View {
                 }
                 .buttonStyle(.plain)
                 .sheet(isPresented: $showEntityPicker) {
-                    NavigationView {
+                    NavigationStack {
                         EntityPicker(
                             selectedServerId: viewModel.config.serverId,
                             selectedEntity: $viewModel.selectedEntity,
@@ -198,7 +198,6 @@ struct WatchComplicationBuilderEditView: View {
                             mode: .list
                         )
                     }
-                    .navigationViewStyle(.stack)
                     .presentationDragIndicator(.visible)
                 }
             }
@@ -397,7 +396,7 @@ extension Binding where Value == String {
     // swiftlint:disable prohibit_environment_assignment
     Current.servers = FakeServerManager(initial: 1)
     // swiftlint:enable prohibit_environment_assignment
-    return NavigationView { WatchComplicationBuilderEditView(existing: nil) }
+    return NavigationStack { WatchComplicationBuilderEditView(existing: nil) }
 }
 
 #Preview("Editing existing entity complication") {
@@ -406,7 +405,7 @@ extension Binding where Value == String {
     Current.servers = FakeServerManager(initial: 1)
     // swiftlint:enable prohibit_environment_assignment
     let serverId = Current.servers.all.first?.identifier.rawValue ?? ""
-    return NavigationView {
+    return NavigationStack {
         WatchComplicationBuilderEditView(existing: WatchComplicationConfig(
             serverId: serverId,
             widgetFamily: .rectangular,
@@ -425,7 +424,7 @@ extension Binding where Value == String {
     Current.servers = FakeServerManager(initial: 1)
     // swiftlint:enable prohibit_environment_assignment
     let serverId = Current.servers.all.first?.identifier.rawValue ?? ""
-    return NavigationView {
+    return NavigationStack {
         WatchComplicationBuilderEditView(existing: WatchComplicationConfig(
             serverId: serverId,
             kind: .customTemplate,

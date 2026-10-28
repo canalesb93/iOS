@@ -20,14 +20,13 @@ struct ComplicationListView: View {
         }
         .navigationTitle(Text(L10n.Watch.Complications.Legacy.title))
         .sheet(isPresented: $showFamilyPicker) {
-            NavigationView {
+            NavigationStack {
                 ComplicationFamilySelectView(
                     allowMultiple: viewModel.supportsMultipleComplications,
                     currentFamilies: viewModel.currentFamilies,
                     onSaved: { showFamilyPicker = false }
                 )
             }
-            .navigationViewStyle(.stack)
         }
         .alert(
             L10n.errorLabel,
@@ -108,5 +107,5 @@ struct ComplicationListView: View {
 }
 
 #Preview("Legacy complications") {
-    NavigationView { ComplicationListView() }
+    NavigationStack { ComplicationListView() }
 }

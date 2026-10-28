@@ -13,9 +13,8 @@ struct ServerSettingsSheet<Content: View>: View {
     @ViewBuilder let content: Content
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             content
-                .navigationViewStyle(.stack)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         CloseButton(alternativeAction: onClose)

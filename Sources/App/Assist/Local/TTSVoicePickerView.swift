@@ -137,7 +137,7 @@ struct TTSVoicePickerView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         TTSVoicePickerView(selectedVoiceIdentifier: .constant(nil))
     }
 }
