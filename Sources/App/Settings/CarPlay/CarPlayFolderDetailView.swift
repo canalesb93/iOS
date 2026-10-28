@@ -77,6 +77,8 @@ struct CarPlayFolderDetailView: View {
                         viewModel.updateFolder(updatedFolder)
                     }
                 }
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
             }
         }
     }

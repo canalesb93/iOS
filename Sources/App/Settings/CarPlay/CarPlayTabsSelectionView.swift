@@ -125,6 +125,7 @@ struct CarPlayTabsSelectionView: View {
             }
         }
         .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
     }
 
     /// Built-in tabs not yet active, followed by Quick Access folders not yet promoted to a tab.

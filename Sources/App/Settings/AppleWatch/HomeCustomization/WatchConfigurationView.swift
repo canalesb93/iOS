@@ -189,6 +189,7 @@ struct WatchConfigurationView: View {
             addFolderForm
         }
         .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
     }
 
     private var addFolderForm: some View {

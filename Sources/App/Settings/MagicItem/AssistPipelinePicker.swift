@@ -94,6 +94,8 @@ struct AssistPipelinePicker: View {
                     }
                 }
             }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
     }
 

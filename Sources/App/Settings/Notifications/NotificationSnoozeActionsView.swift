@@ -39,6 +39,7 @@ struct NotificationSnoozeActionsView: View {
                 viewModel.add(minutes: minutes)
             }
             .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
         }
     }
 

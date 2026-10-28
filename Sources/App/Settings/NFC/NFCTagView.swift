@@ -19,6 +19,8 @@ struct NFCTagView: View {
         .shareSheet(item: $shareWrapper)
         .sheet(isPresented: $showYamlSheet) {
             YamlCodeView(yaml: yamlExample)
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
     }
 

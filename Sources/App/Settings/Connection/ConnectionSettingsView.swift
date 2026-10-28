@@ -99,6 +99,8 @@ struct ConnectionSettingsView: View {
                     }
                 }
             }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showSensorPrivacySheet) {
             NavigationStack {
@@ -120,6 +122,8 @@ struct ConnectionSettingsView: View {
                     }
                 }
             }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
         .onDisappear {
             onDismiss?()

@@ -52,6 +52,8 @@ struct AssistSettingsView: View {
                 }
             }
         }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
     }
 
     private var startMode: some View {

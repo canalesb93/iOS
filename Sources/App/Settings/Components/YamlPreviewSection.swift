@@ -57,6 +57,8 @@ struct YamlPreviewSection: View {
         .shareSheet(item: $shareWrapper)
         .sheet(isPresented: $showYamlSheet) {
             YamlCodePreviewView(yaml: yaml)
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
     }
 }
