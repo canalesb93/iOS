@@ -292,6 +292,12 @@ public class SettingsStore {
         }
     }
 
+    /// Whether the native sidebar's first-run peek has played.
+    public var hasSeenNativeSidebarHint: Bool {
+        get { prefs.bool(forKey: "hasSeenNativeSidebarHint") }
+        set { prefs.set(newValue, forKey: "hasSeenNativeSidebarHint") }
+    }
+
     public var pinchToZoom: Bool {
         get {
             prefs.bool(forKey: "pinchToZoom")

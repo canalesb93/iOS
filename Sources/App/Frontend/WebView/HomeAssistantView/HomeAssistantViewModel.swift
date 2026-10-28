@@ -187,6 +187,19 @@ final class HomeAssistantViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
+        // Once the frontend is first uncovered with the sidebar on, hint that it is there.
+        $isFullScreenLoaderMounted
+            .removeDuplicates()
+            .filter { !$0 }
+            .delay(for: .seconds(0.8), scheduler: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self, navigation.isNativeSidebarEnabled, !nativeSidebar.drawer.isDockedLayout,
+                      !Current.settingsStore.hasSeenNativeSidebarHint else { return }
+                Current.settingsStore.hasSeenNativeSidebarHint = true
+                nativeSidebar.drawer.peek()
+            }
+            .store(in: &cancellables)
+
         navigation.$style
             .removeDuplicates()
             .receive(on: DispatchQueue.main)

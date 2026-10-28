@@ -25,6 +25,7 @@ for test in json.load(open(os.path.join(att, "manifest.json"))):
         src = os.path.join(att, a["exportedFileName"])
         if name.endswith((".png", ".jpeg", ".mp4", ".ips")) or "." not in name:
             ext = os.path.splitext(a["exportedFileName"])[1]
-            shutil.copy(src, os.path.join(out, name.split("_")[0].replace(" ", "-") + ("" if name.endswith(ext) else ext)))
+            base = name.split("_")[0].replace(" ", "-")
+            shutil.copy(src, os.path.join(out, base if base.endswith(ext) else base + ext))
 PY
 ls "$OUT"

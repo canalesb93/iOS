@@ -55,7 +55,9 @@ extension WebViewController {
     /// under the finger like Safari.
     func updateNativeSidebarEdgeNavigation(isAtPanelRoot: Bool, isEnabled: Bool) {
         guard isViewLoaded, let webView else { return }
-        let usesBackSwipe = isEnabled && !isAtPanelRoot && webView.canGoBack
+        // Not gated on `canGoBack`: that updates after the route does, and a sub-page shows the frontend's own
+        // back arrow rather than the menu button, so the edge has nothing better to do there anyway.
+        let usesBackSwipe = isEnabled && !isAtPanelRoot
         if webView.allowsBackForwardNavigationGestures != usesBackSwipe {
             webView.allowsBackForwardNavigationGestures = usesBackSwipe
         }
