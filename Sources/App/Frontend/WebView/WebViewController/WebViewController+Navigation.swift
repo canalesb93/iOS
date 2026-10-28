@@ -64,10 +64,11 @@ extension WebViewController {
         }
     }
 
-    /// Used by the native iOS tab bar
-    func openSidebarPath(_ path: String) {
+    /// Used by the native iOS tab bar and sidebar. `replace` swaps the current history entry instead of pushing
+    /// one: switching panels from the sidebar changes where you are, it doesn't drill deeper.
+    func openSidebarPath(_ path: String, replace: Bool = false) {
         loadViewIfNeeded()
-        navigateThroughFrontend(path: path) { [weak self] success in
+        navigateThroughFrontend(path: path, replace: replace) { [weak self] success in
             if !success {
                 Current.Log.warning("Failed to navigate through frontend for sidebar path: \(path)")
                 self?.navigateToPath(path: path)
@@ -77,7 +78,7 @@ extension WebViewController {
 
     /// Uses external bus to navigate through frontend instead of loading the page from scratch using the web view
     /// Returns true if the navigation was successful
-    private func navigateThroughFrontend(path: String, completion: @escaping (Bool) -> Void) {
+    private func navigateThroughFrontend(path: String, replace: Bool = false, completion: @escaping (Bool) -> Void) {
         guard server.info.version >= .canNavigateThroughFrontend else {
             Current.Log.warning("Cannot navigate through frontend, core version is too low")
             completion(false)
@@ -86,7 +87,10 @@ extension WebViewController {
         Current.Log.verbose("Requesting navigation using external bus to path: \(path)")
         webViewExternalMessageHandler.sendExternalBusCommandWithRetry(
             command: .navigate,
-            payload: [
+            payload: replace ? [
+                "path": path,
+                "options": ["replace": true],
+            ] : [
                 "path": path,
             ],
             completion: completion

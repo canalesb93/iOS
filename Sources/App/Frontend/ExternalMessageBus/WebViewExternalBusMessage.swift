@@ -42,7 +42,9 @@ enum WebViewExternalBusMessage: String, CaseIterable {
     @MainActor static var configResult: [String: Any] {
         [
             "hasSettingsScreen": !Current.isCatalyst,
-            "hasSidebar": AppLabsFeature.iosNativeTabBar.isEnabled,
+            // Only the tab bar replaces the frontend's menu outright; the native sidebar keeps the menu button
+            // and intercepts it (see `NativeSidebarBridgeScript`).
+            "hasSidebar": FrontendNavigationState.shared.isTabBarEnabled,
             "canWriteTag": Current.tags.isNFCAvailable,
             "canCommissionMatter": Current.matter.isAvailable,
             "canShareMatterDeviceToAppleHome": Current.matter.canShareDevice,

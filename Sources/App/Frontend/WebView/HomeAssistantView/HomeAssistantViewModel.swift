@@ -35,6 +35,9 @@ final class HomeAssistantViewModel: ObservableObject {
     let sidebar: MacSidebarViewModel
     /// Lays `sidebar` out as tabs for the App Labs native iOS tab bar.
     let tabBar: NativeTabBarViewModel
+    /// Lays `sidebar` out as the native drawer / docked sidebar.
+    let nativeSidebar: NativeSidebarViewModel
+    let navigation: FrontendNavigationState
 
     @Published var webViewResetID = UUID()
     @Published var webViewController: WebViewController?
@@ -88,6 +91,8 @@ final class HomeAssistantViewModel: ObservableObject {
         self.appCoordinator = appCoordinator
         self.sidebar = MacSidebarViewModel(server: server, overlayState: self.overlayState)
         self.tabBar = NativeTabBarViewModel(sidebar: sidebar, overlayState: self.overlayState)
+        self.nativeSidebar = NativeSidebarViewModel(sidebar: sidebar, overlayState: self.overlayState)
+        self.navigation = .shared
 
         sidebar.onNavigate = { [weak self] path in
             self?.webViewController?.openSidebarPath(path)
@@ -133,9 +138,110 @@ final class HomeAssistantViewModel: ObservableObject {
             }
         }
 
+        bindNativeSidebar()
         bindObservableChildren()
         bindOverlayState()
         beginFullScreenLoaderCycle()
+    }
+
+    var isNativeSidebarActive: Bool {
+        navigation.isNativeSidebarEnabled
+    }
+
+    private func bindNativeSidebar() {
+        nativeSidebar.onNavigate = { [weak self] path in
+            self?.webViewController?.openSidebarPath(path, replace: true)
+        }
+        nativeSidebar.onQuickSearch = { [weak self] in
+            self?.webViewController?.webViewGestureHandler.handleGestureAction(.quickSearch)
+        }
+        nativeSidebar.onAssist = { [weak self] in
+            guard let self, let webViewController else { return }
+            webViewController.presentsNextAssistAsSheet = true
+            webViewController.webViewExternalMessageHandler.showAssist(
+                server: server,
+                pipeline: "",
+                autoStartRecording: false
+            )
+        }
+        nativeSidebar.onShowNotifications = { [weak self] in
+            self?.sidebar.onShowNotifications?()
+        }
+        nativeSidebar.appCoordinator = { [weak self] in
+            self?.windowCoordinator ?? Current.sceneManager.appCoordinator
+        }
+
+        // The edge belongs to the drawer at the top of a panel and to going back below it, and to neither while
+        // the frontend's more-info dialog is up.
+        overlayState.$currentPath
+            .combineLatest(overlayState.$isMoreInfoDialogOpen, navigation.$style)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] path, isDialogOpen, style in
+                self?.webViewController?.updateNativeSidebarEdgeNavigation(
+                    isAtPanelRoot: NativeSidebarRoute.isRoot(path) && !isDialogOpen,
+                    isEnabled: style == .sidebar
+                )
+            }
+            .store(in: &cancellables)
+
+        navigation.$style
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] style in
+                guard let self else { return }
+                if style == .sidebar {
+                    sidebar.start()
+                } else {
+                    nativeSidebar.drawer.close()
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    /// Hooks a (possibly new) controller up to the native sidebar: its left edge drives the drawer and its menu
+    /// button and `.showSidebar` gesture open it.
+    private func connectNativeSidebar(to controller: WebViewController) {
+        controller.onShowNativeSidebar = { [weak self] in
+            guard let self, navigation.isNativeSidebarEnabled else { return }
+            let drawer = nativeSidebar.drawer
+            if drawer.isDockedLayout {
+                withAnimation(DesignSystem.Motion.drawer) {
+                    drawer.isDockedSidebarVisible.toggle()
+                }
+            } else {
+                drawer.toggle()
+            }
+        }
+        controller.nativeSidebarEdgePanHandler = { [weak self] gesture in
+            guard let self, navigation.isNativeSidebarEnabled else { return }
+            let drawer = nativeSidebar.drawer
+            guard !drawer.isDockedLayout else {
+                if gesture.state == .ended, !drawer.isDockedSidebarVisible {
+                    withAnimation(DesignSystem.Motion.drawer) {
+                        drawer.isDockedSidebarVisible = true
+                    }
+                }
+                return
+            }
+            // Window coordinates: the web view itself moves with the drawer.
+            let translation = gesture.translation(in: nil).x
+            switch gesture.state {
+            case .began:
+                drawer.beginInteraction()
+            case .changed:
+                drawer.updateInteraction(translation: translation)
+            case .ended:
+                drawer.endInteraction(translation: translation, velocity: gesture.velocity(in: nil).x)
+            case .cancelled, .failed:
+                drawer.cancelInteraction()
+            default:
+                break
+            }
+        }
+        controller.updateNativeSidebarEdgeNavigation(
+            isAtPanelRoot: NativeSidebarRoute.isRoot(overlayState.currentPath) && !overlayState.isMoreInfoDialogOpen,
+            isEnabled: navigation.isNativeSidebarEnabled
+        )
     }
 
     deinit {
@@ -236,6 +342,7 @@ final class HomeAssistantViewModel: ObservableObject {
 
     func handleWebViewController(_ controller: WebViewController) {
         webViewController = controller
+        connectNativeSidebar(to: controller)
         onWebViewController?(controller)
     }
 
@@ -287,6 +394,10 @@ final class HomeAssistantViewModel: ObservableObject {
             .store(in: &cancellables)
 
         tabBar.objectWillChange
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+
+        navigation.objectWillChange
             .sink { [weak self] _ in self?.objectWillChange.send() }
             .store(in: &cancellables)
     }

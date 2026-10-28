@@ -48,6 +48,10 @@ final class WebViewGestureHandler {
     }
 
     private func showSidebar() {
+        if let onShowNativeSidebar = webView?.onShowNativeSidebar {
+            onShowNativeSidebar()
+            return
+        }
         webView?.webViewExternalMessageHandler
             .sendExternalBus(message: .init(command: WebViewExternalBusOutgoingMessage.showSidebar.rawValue))
             .cauterize()

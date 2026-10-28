@@ -12,6 +12,7 @@ public class SettingsStore {
 
     /// These will only be posted on the main thread
     public static let webViewRelatedSettingDidChange: Notification.Name = .init("webViewRelatedSettingDidChange")
+    public static let frontendNavigationStyleDidChange: Notification.Name = .init("frontendNavigationStyleDidChange")
     public static let menuRelatedSettingDidChange: Notification.Name = .init("menuRelatedSettingDidChange")
     public static let locationRelatedSettingDidChange: Notification.Name = .init("locationRelatedSettingDidChange")
 
@@ -277,6 +278,17 @@ public class SettingsStore {
             precondition(Thread.isMainThread)
             prefs.set(newValue.zoom, forKey: "page_zoom")
             NotificationCenter.default.post(name: Self.webViewRelatedSettingDidChange, object: nil)
+        }
+    }
+
+    /// Raw value of the app's `FrontendNavigationStyle`; nil until the user picks one.
+    public var frontendNavigationStyle: String? {
+        get {
+            prefs.string(forKey: "frontendNavigationStyle")
+        }
+        set {
+            prefs.set(newValue, forKey: "frontendNavigationStyle")
+            NotificationCenter.default.post(name: Self.frontendNavigationStyleDidChange, object: nil)
         }
     }
 

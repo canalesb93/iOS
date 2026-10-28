@@ -11,6 +11,8 @@ struct HomeAssistantView: View, WebFrontendView {
     @StateObject private var launchMessages = LaunchMessagesState()
     @Environment(\.scenePhase) private var scenePhase
     @ObservedObject private var nativeTabBar = NativeTabBarState.shared
+    @ObservedObject private var navigation = FrontendNavigationState.shared
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// Owned by `ConditionalContainerView`, which presents the picker the stand-by view zooms into.
@@ -60,14 +62,26 @@ struct HomeAssistantView: View, WebFrontendView {
                     onNeedsWebViewController: viewModel.ensureWebViewController
                 )
             }
-            // The frontend chrome keeps one structural identity whichever App Labs layout is on, so its
-            // appear/disappear fades never race each other when a layout is toggled.
-            frontendContent
+            // The frontend chrome keeps one structural identity whichever navigation style is on, so its
+            // appear/disappear fades never race each other when a style is changed. The sidebar container
+            // only changes the modifiers around it, never where it sits in the tree.
+            NativeSidebarContainerView(
+                drawer: viewModel.nativeSidebar.drawer,
+                isDocked: horizontalSizeClass == .regular,
+                isEnabled: navigation.isNativeSidebarEnabled && !viewModel.isStandByViewVisible,
+                accentColor: viewModel.sidebar.accentColor
+            ) {
+                if navigation.isNativeSidebarEnabled {
+                    NativeSidebarView(viewModel: viewModel.nativeSidebar, accentColor: viewModel.sidebar.accentColor)
+                }
+            } content: {
+                frontendContent
+            }
         }
-        .onChange(of: nativeTabBar.isEnabled) { _ in
-            // The frontend reads the `hasSidebar` external config once per page load, so a fresh web
-            // view is what applies the new value. Reloading in place keeps the fade/loader state
-            // consistent, unlike swapping the frontend's structural identity.
+        .onChange(of: navigation.style) { _ in
+            // The frontend reads the `hasSidebar` external config and the sidebar bridge script once per page
+            // load, so a fresh web view is what applies the new style. Reloading in place keeps the
+            // fade/loader state consistent, unlike swapping the frontend's structural identity.
             viewModel.resetWebFrontend()
         }
     }

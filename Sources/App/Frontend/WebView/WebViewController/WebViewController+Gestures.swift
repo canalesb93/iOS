@@ -33,11 +33,32 @@ extension WebViewController {
     }
 
     @objc func screenEdgeGestureRecognizerAction(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        if gesture.edges == .left, let nativeSidebarEdgePanHandler,
+           (Current.settingsStore.gestures[.swipeRight] ?? .none) == .showSidebar {
+            nativeSidebarEdgePanHandler(gesture)
+            return
+        }
         guard gesture.state == .ended else {
             return
         }
         let gesture: AppGesture = gesture.edges == .left ? .swipeRight : .swipeLeft
         let action = Current.settingsStore.gestures[gesture] ?? .none
         webViewGestureHandler.handleGestureAction(action)
+    }
+}
+
+// MARK: - Native sidebar edge navigation
+
+extension WebViewController {
+    /// Splits the left edge between the drawer and going back: at the top of a panel the edge belongs to the
+    /// drawer, below it WebKit's own interactive back swipe takes over, with its page snapshot sliding
+    /// under the finger like Safari.
+    func updateNativeSidebarEdgeNavigation(isAtPanelRoot: Bool, isEnabled: Bool) {
+        guard isViewLoaded, let webView else { return }
+        let usesBackSwipe = isEnabled && !isAtPanelRoot && webView.canGoBack
+        if webView.allowsBackForwardNavigationGestures != usesBackSwipe {
+            webView.allowsBackForwardNavigationGestures = usesBackSwipe
+        }
+        leftEdgePanGestureRecognizer.isEnabled = !usesBackSwipe
     }
 }

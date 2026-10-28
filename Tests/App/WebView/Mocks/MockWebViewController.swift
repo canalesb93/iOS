@@ -16,6 +16,7 @@ final class MockWebViewController: WebViewControllerProtocol {
     var assistZoomAnchorView: UIView?
     var pendingAssistZoomSourceView: UIView?
     var presentsNextAssistAsSheet = false
+    var onShowNativeSidebar: (() -> Void)?
 
     var presentOverlayControllerCalled = false
     var presentControllerCalled = false

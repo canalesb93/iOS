@@ -4305,6 +4305,23 @@ public enum L10n {
     }
   }
 
+  public enum NativeSidebar {
+    /// App Settings
+    public static var appSettings: String { return L10n.tr("Localizable", "native_sidebar.app_settings") }
+    /// Assist
+    public static var assist: String { return L10n.tr("Localizable", "native_sidebar.assist") }
+    /// Search
+    public static var search: String { return L10n.tr("Localizable", "native_sidebar.search") }
+    /// Switch Server
+    public static var switchServer: String { return L10n.tr("Localizable", "native_sidebar.switch_server") }
+    public enum Accessibility {
+      /// Close Sidebar
+      public static var closeSidebar: String { return L10n.tr("Localizable", "native_sidebar.accessibility.close_sidebar") }
+      /// Open Sidebar
+      public static var openSidebar: String { return L10n.tr("Localizable", "native_sidebar.accessibility.open_sidebar") }
+    }
+  }
+
   public enum NavBar {
     /// Close
     public static var close: String { return L10n.tr("Localizable", "navBar.close") }
@@ -7339,6 +7356,20 @@ public enum L10n {
       public enum MenuBarText {
         /// Menu Bar Text
         public static var title: String { return L10n.tr("Localizable", "settings_details.general.menu_bar_text.title") }
+      }
+      public enum Navigation {
+        /// Sidebar reveals your dashboards from the left edge on iPhone and docks beside them on iPad. Tab Bar puts your top panels in the iOS tab bar. Web Menu keeps the Home Assistant menu inside the page.
+        public static var footer: String { return L10n.tr("Localizable", "settings_details.general.navigation.footer") }
+        /// Navigation
+        public static var title: String { return L10n.tr("Localizable", "settings_details.general.navigation.title") }
+        public enum Style {
+          /// Sidebar
+          public static var sidebar: String { return L10n.tr("Localizable", "settings_details.general.navigation.style.sidebar") }
+          /// Tab Bar
+          public static var tabBar: String { return L10n.tr("Localizable", "settings_details.general.navigation.style.tab_bar") }
+          /// Web Menu
+          public static var web: String { return L10n.tr("Localizable", "settings_details.general.navigation.style.web") }
+        }
       }
       public enum OpenInBrowser {
         /// Google Chrome

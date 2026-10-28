@@ -37,6 +37,11 @@ final class WebViewController: UIViewController, WKNavigationDelegate, WKUIDeleg
 
     let leftEdgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer
     let rightEdgeGestureRecognizer: UIScreenEdgePanGestureRecognizer
+    /// Receives every state of the left-edge pan when the native sidebar drives a drawer from it, so the
+    /// drawer can track the finger instead of reacting once the gesture ends.
+    var nativeSidebarEdgePanHandler: ((UIScreenEdgePanGestureRecognizer) -> Void)?
+    /// Opens the native sidebar; set while the sidebar navigation style is on screen.
+    var onShowNativeSidebar: (() -> Void)?
 
     var statusBarView: UIView?
     /// Stands in for the frontend's Assist button as the zoom transition's source; see `AssistZoomAnchorView`.
@@ -364,6 +369,14 @@ final class WebViewController: UIViewController, WKNavigationDelegate, WKUIDeleg
                     });
                 });
             """,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        ))
+
+        userContentController.addUserScript(.init(
+            source: FrontendNavigationState.shared.isNativeSidebarEnabled
+                ? NativeSidebarBridgeScript.install
+                : NativeSidebarBridgeScript.uninstall,
             injectionTime: .atDocumentStart,
             forMainFrameOnly: true
         ))

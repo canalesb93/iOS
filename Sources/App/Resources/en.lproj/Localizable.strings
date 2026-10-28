@@ -1266,6 +1266,12 @@ This server requires a client certificate (mTLS) but the operation was cancelled
 "mtls.beta.info" = "This is a beta feature, if you experience any issues, please report them using the button below.\
 \
 Currently mTLS is only supported on iOS 17+, it may present issues related to displaying notification attachments, Assist TTS audio and it will not fully work on Apple Watch.";
+"native_sidebar.accessibility.close_sidebar" = "Close Sidebar";
+"native_sidebar.accessibility.open_sidebar" = "Open Sidebar";
+"native_sidebar.app_settings" = "App Settings";
+"native_sidebar.assist" = "Assist";
+"native_sidebar.search" = "Search";
+"native_sidebar.switch_server" = "Switch Server";
 "navBar.close" = "Close";
 "network.error.no_active_url.body" = "Open companion app settings and check your server settings, internal URL will only be used if local network is defined (SSID), if you are using VPN try setting your external URL as the same as internal URL.";
 "network.error.no_active_url.description" = "“%@” has no URL this device can use right now.";
@@ -2259,6 +2265,11 @@ The server only answers while the app is open, and stops when you leave it.";
 "settings_details.general.open_in_browser.safari_in_app" = "Apple Safari (in app)";
 "settings_details.general.open_in_browser.title" = "Open Links In";
 "settings_details.general.open_in_private_tab.title" = "Open in Private Tab";
+"settings_details.general.navigation.footer" = "Sidebar reveals your dashboards from the left edge on iPhone and docks beside them on iPad. Tab Bar puts your top panels in the iOS tab bar. Web Menu keeps the Home Assistant menu inside the page.";
+"settings_details.general.navigation.style.sidebar" = "Sidebar";
+"settings_details.general.navigation.style.tab_bar" = "Tab Bar";
+"settings_details.general.navigation.style.web" = "Web Menu";
+"settings_details.general.navigation.title" = "Navigation";
 "settings_details.general.page.title" = "Page";
 "settings_details.general.page_zoom.default" = "%@ (Default)";
 "settings_details.general.page_zoom.title" = "Page Zoom";

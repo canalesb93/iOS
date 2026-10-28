@@ -36,6 +36,27 @@ struct GeneralSettingsView: View {
             }
             #endif
 
+            if FrontendNavigationStyle.selectableStyles.count > 1 {
+                Section {
+                    Picker(selection: .init(get: {
+                        FrontendNavigationState.shared.style
+                    }, set: { style in
+                        FrontendNavigationState.shared.select(style)
+                        redrawHelper = UUID()
+                    })) {
+                        ForEach(FrontendNavigationStyle.selectableStyles) { style in
+                            Text(style.title).tag(style)
+                        }
+                    } label: {
+                        Text(L10n.SettingsDetails.General.Navigation.title)
+                    }
+                } header: {
+                    Text(L10n.SettingsDetails.General.Navigation.title)
+                } footer: {
+                    Text(L10n.SettingsDetails.General.Navigation.footer)
+                }
+            }
+
             Section(L10n.SettingsDetails.General.Links.title) {
                 openInBrowser
                 confirmBeforeOpenURL

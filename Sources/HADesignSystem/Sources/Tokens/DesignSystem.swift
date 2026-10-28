@@ -117,4 +117,50 @@ public enum DesignSystem {
         public static let easeInOutSlower: SwiftUICore.Animation = .easeInOut(duration: 0.8)
         public static let easeInOutSlowest: SwiftUICore.Animation = .easeInOut(duration: 1.5)
     }
+
+    /// Physical motion for navigation chrome. Springs are tuned in perceptual terms (duration + bounce)
+    /// so they read the same at 60 and 120 Hz, and every one of them can be retargeted mid-flight.
+    public enum Motion {
+        /// Settle time of the drawer and other large, edge-driven surfaces.
+        public static let drawerDuration: TimeInterval = 0.42
+        /// Slight overshoot so a flicked drawer feels like it has mass, never so much that it wobbles.
+        public static let drawerBounce: Double = 0.12
+        public static let drawer: SwiftUICore.Animation = spring(duration: drawerDuration, bounce: drawerBounce)
+        /// Small selection changes: a highlight sliding between rows, a badge appearing.
+        public static let snappy: SwiftUICore.Animation = spring(duration: 0.3, bounce: 0.18)
+        /// Content swaps inside a surface that is already on screen.
+        public static let smooth: SwiftUICore.Animation = spring(duration: 0.35, bounce: 0)
+        /// Press feedback on custom controls.
+        public static let press: SwiftUICore.Animation = spring(duration: 0.2, bounce: 0.3)
+
+        /// A drawer spring that continues the finger's speed. `relativeVelocity` is in "distances per
+        /// second": the remaining travel divided into the gesture's velocity.
+        public static func drawer(relativeVelocity: Double) -> SwiftUICore.Animation {
+            spring(duration: drawerDuration, bounce: drawerBounce, initialVelocity: relativeVelocity)
+        }
+
+        /// `Animation.spring(duration:bounce:)` expressed with the iOS 16 stiffness/damping API: a unit-mass
+        /// spring whose period is `duration` and whose damping ratio is `1 - bounce`.
+        public static func spring(
+            duration: TimeInterval,
+            bounce: Double,
+            initialVelocity: Double = 0
+        ) -> SwiftUICore.Animation {
+            let stiffness = pow(2 * .pi / duration, 2)
+            let damping = 4 * .pi * (1 - bounce) / duration
+            return .interpolatingSpring(mass: 1, stiffness: stiffness, damping: damping, initialVelocity: initialVelocity)
+        }
+
+        /// Where a flick would come to rest if it decelerated naturally, the way `UIScrollView` projects
+        /// a fling. Used to decide which side of a threshold a released drag belongs to.
+        public static func project(velocity: CGFloat, decelerationRate: CGFloat = 0.998) -> CGFloat {
+            (velocity / 1000) * decelerationRate / (1 - decelerationRate)
+        }
+
+        /// iOS-style resistance past a limit: the further you pull, the less it moves.
+        public static func rubberBand(_ offset: CGFloat, dimension: CGFloat, coefficient: CGFloat = 0.55) -> CGFloat {
+            guard dimension > 0 else { return 0 }
+            return (1 - (1 / (offset * coefficient / dimension + 1))) * dimension
+        }
+    }
 }

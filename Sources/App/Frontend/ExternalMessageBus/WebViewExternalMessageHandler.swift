@@ -228,7 +228,11 @@ final class WebViewExternalMessageHandler: @preconcurrency WebViewExternalMessag
             case .frontendReloadAndClearCache:
                 reloadAndClearFrontendCache()
             case .sidebarShow:
-                NativeTabBarState.shared.requestMore()
+                if let onShowNativeSidebar = webViewController.onShowNativeSidebar {
+                    onShowNativeSidebar()
+                } else {
+                    NativeTabBarState.shared.requestMore()
+                }
             case .moreInfoOpened:
                 guard let entityId = incomingMessage.Payload?["entity_id"] as? String else {
                     Current.Log.error("Received more_info/opened but entity_id was not string! \(incomingMessage)")

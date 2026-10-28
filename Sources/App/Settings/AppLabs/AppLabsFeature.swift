@@ -26,9 +26,7 @@ enum AppLabsFeature: String, CaseIterable, Identifiable {
     var isAvailableOnThisDevice: Bool {
         switch self {
         case .iosNativeTabBar:
-            if #available(iOS 26, *) {
-                return !Current.isCatalyst
-            }
+            // Graduated into Settings ▸ General ▸ Navigation (`FrontendNavigationStyle.tabBar`).
             return false
         }
     }

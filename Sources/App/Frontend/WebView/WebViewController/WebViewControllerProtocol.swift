@@ -11,6 +11,8 @@ protocol WebViewControllerProtocol: AnyObject {
     /// A one-off zoom source for the next Assist presentation, set by the App Labs tab bar.
     var pendingAssistZoomSourceView: UIView? { get set }
     var presentsNextAssistAsSheet: Bool { get set }
+    /// Opens the native sidebar instead of the frontend's drawer when that navigation style is on.
+    var onShowNativeSidebar: (() -> Void)? { get }
     var webViewExternalMessageHandler: any WebViewExternalMessageHandlerProtocol { get }
     var canGoBack: Bool { get }
     var canGoForward: Bool { get }

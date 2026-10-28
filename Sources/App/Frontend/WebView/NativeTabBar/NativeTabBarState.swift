@@ -2,7 +2,7 @@ import Combine
 import Foundation
 import Shared
 
-/// Shared state of the App Labs native iOS tab bar.
+/// Shared state of the native iOS tab bar, on when it is the chosen `FrontendNavigationStyle`.
 final class NativeTabBarState: ObservableObject {
     static let shared = NativeTabBarState()
 
@@ -11,11 +11,11 @@ final class NativeTabBarState: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init() {
-        self.isEnabled = AppLabsFeature.iosNativeTabBar.isEnabled
+    init(navigation: FrontendNavigationState = .shared) {
+        self.isEnabled = navigation.isTabBarEnabled
 
-        Current.appLabs.enabledFeatureIdsPublisher
-            .map { AppLabsFeature.iosNativeTabBar.isEnabled(in: $0) }
+        navigation.$style
+            .map { $0 == .tabBar }
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isEnabled in
