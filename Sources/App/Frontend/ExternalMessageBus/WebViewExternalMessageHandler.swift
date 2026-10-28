@@ -674,6 +674,10 @@ final class WebViewExternalMessageHandler: @preconcurrency WebViewExternalMessag
             // Mac Catalyst doesn't trigger bluetooth permission for some reason
             guard !Current.isCatalyst else { return }
             let bluetoothPermissionView = UIHostingController(rootView: BluetoothPermissionView())
+            if let sheet = bluetoothPermissionView.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersGrabberVisible = true
+            }
             webViewController?.presentOverlayController(controller: bluetoothPermissionView, animated: true)
         }
     }
