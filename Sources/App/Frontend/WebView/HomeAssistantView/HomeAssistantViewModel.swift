@@ -181,8 +181,8 @@ final class HomeAssistantViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] path, isDialogOpen, style in
                 self?.webViewController?.updateNativeSidebarEdgeNavigation(
-                    isAtPanelRoot: NativeSidebarRoute.isRoot(path) && !isDialogOpen,
-                    isEnabled: style == .sidebar
+                    isAtPanelRoot: NativeSidebarRoute.isRoot(path),
+                    isEnabled: style == .sidebar && !isDialogOpen
                 )
             }
             .store(in: &cancellables)
@@ -229,7 +229,8 @@ final class HomeAssistantViewModel: ObservableObject {
             }
         }
         controller.nativeSidebarEdgePanHandler = { [weak self] gesture in
-            guard let self, navigation.isNativeSidebarEnabled else { return }
+            guard let self, navigation.isNativeSidebarEnabled,
+                  !overlayState.isMoreInfoDialogOpen || nativeSidebar.drawer.isInteracting else { return }
             let drawer = nativeSidebar.drawer
             guard !drawer.isDockedLayout else {
                 if gesture.state == .ended, !drawer.isDockedSidebarVisible {
@@ -255,8 +256,8 @@ final class HomeAssistantViewModel: ObservableObject {
             }
         }
         controller.updateNativeSidebarEdgeNavigation(
-            isAtPanelRoot: NativeSidebarRoute.isRoot(overlayState.currentPath) && !overlayState.isMoreInfoDialogOpen,
-            isEnabled: navigation.isNativeSidebarEnabled
+            isAtPanelRoot: NativeSidebarRoute.isRoot(overlayState.currentPath),
+            isEnabled: navigation.isNativeSidebarEnabled && !overlayState.isMoreInfoDialogOpen
         )
     }
 

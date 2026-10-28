@@ -68,6 +68,9 @@ extension WebViewController {
     /// one: switching panels from the sidebar changes where you are, it doesn't drill deeper.
     func openSidebarPath(_ path: String, replace: Bool = false) {
         loadViewIfNeeded()
+        if replace {
+            pageTransitions?.expectReplace()
+        }
         navigateThroughFrontend(path: path, replace: replace) { [weak self] success in
             if !success {
                 Current.Log.warning("Failed to navigate through frontend for sidebar path: \(path)")

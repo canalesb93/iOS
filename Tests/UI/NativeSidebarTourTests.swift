@@ -65,7 +65,8 @@ final class NativeSidebarTourTests: XCTestCase {
                 areas.tap()
                 settle(3)
                 snapshot("07-subpage")
-                edge.press(forDuration: 0.05, thenDragTo: middle, withVelocity: .slow, thenHoldForDuration: 0.3)
+                let exactEdge = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0.55))
+                exactEdge.press(forDuration: 0.15, thenDragTo: middle, withVelocity: 1600, thenHoldForDuration: 0)
                 settle(2)
                 snapshot("08-after-back-swipe")
             }

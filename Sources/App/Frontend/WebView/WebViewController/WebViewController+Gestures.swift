@@ -33,6 +33,11 @@ extension WebViewController {
     }
 
     @objc func screenEdgeGestureRecognizerAction(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        if gesture.edges == .left, let pageTransitions,
+           pageTransitions.isTrackingInteractivePop || (gesture.state == .began && pageTransitions.canInteractivelyPop) {
+            pageTransitions.handleEdgePan(gesture)
+            return
+        }
         if gesture.edges == .left, let nativeSidebarEdgePanHandler,
            (Current.settingsStore.gestures[.swipeRight] ?? .none) == .showSidebar {
             nativeSidebarEdgePanHandler(gesture)
@@ -51,16 +56,8 @@ extension WebViewController {
 
 extension WebViewController {
     /// Splits the left edge between the drawer and going back: at the top of a panel the edge belongs to the
-    /// drawer, below it WebKit's own interactive back swipe takes over, with its page snapshot sliding
-    /// under the finger like Safari.
+    /// drawer, below it the edge pops the page with `FrontendPageTransitionController`'s interactive swipe.
     func updateNativeSidebarEdgeNavigation(isAtPanelRoot: Bool, isEnabled: Bool) {
-        guard isViewLoaded, let webView else { return }
-        // Not gated on `canGoBack`: that updates after the route does, and a sub-page shows the frontend's own
-        // back arrow rather than the menu button, so the edge has nothing better to do there anyway.
-        let usesBackSwipe = isEnabled && !isAtPanelRoot
-        if webView.allowsBackForwardNavigationGestures != usesBackSwipe {
-            webView.allowsBackForwardNavigationGestures = usesBackSwipe
-        }
-        leftEdgePanGestureRecognizer.isEnabled = !usesBackSwipe
+        pageTransitions?.isEnabled = isEnabled
     }
 }

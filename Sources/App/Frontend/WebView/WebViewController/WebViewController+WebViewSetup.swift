@@ -81,7 +81,8 @@ extension WebViewController {
             Current.settingsStore.lastActiveServerIdentifier = server.identifier.rawValue
             if let components = URLComponents(url: cleanURL, resolvingAgainstBaseURL: false) {
                 let path = components.path.isEmpty ? "/" : components.path
-                Task { @MainActor [weak overlayState] in
+                Task { @MainActor [weak self, weak overlayState] in
+                    self?.pageTransitions?.routeDidChange(to: path)
                     overlayState?.currentPath = path
                 }
                 var relative = path

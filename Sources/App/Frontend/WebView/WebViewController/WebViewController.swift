@@ -42,6 +42,8 @@ final class WebViewController: UIViewController, WKNavigationDelegate, WKUIDeleg
     var nativeSidebarEdgePanHandler: ((UIScreenEdgePanGestureRecognizer) -> Void)?
     /// Opens the native sidebar; set while the sidebar navigation style is on screen.
     var onShowNativeSidebar: (() -> Void)?
+    /// Push/pop motion between the frontend's pages; created with the web view.
+    var pageTransitions: FrontendPageTransitionController?
 
     var statusBarView: UIView?
     /// Stands in for the frontend's Assist button as the zoom transition's source; see `AssistZoomAnchorView`.
@@ -388,6 +390,7 @@ final class WebViewController: UIViewController, WKNavigationDelegate, WKUIDeleg
         webView = WKWebView(frame: view!.frame, configuration: config)
         webView.isOpaque = false
         view!.addSubview(webView)
+        pageTransitions = FrontendPageTransitionController(webView: webView, container: view)
 
         setupGestures(numberOfTouchesRequired: 2)
         setupGestures(numberOfTouchesRequired: 3)
