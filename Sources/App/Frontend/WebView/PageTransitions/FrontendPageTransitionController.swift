@@ -78,7 +78,7 @@ final class FrontendPageTransitionController {
         // Re-selecting the panel already on screen never reports a change; don't let the flag outlive it.
         let workItem = DispatchWorkItem { [weak self] in self?.history.expectsReplace = false }
         replaceExpiryWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: workItem)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: workItem)
     }
 
     func routeDidChange(to path: String) {
