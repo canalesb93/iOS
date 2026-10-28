@@ -54,7 +54,7 @@ extension SensorPermissionsView: SettingsScreenSearchable {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         SensorPermissionsView()
     }
 }

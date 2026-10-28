@@ -68,7 +68,7 @@ struct YamlCodePreviewView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 Text(yaml)
                     .font(.system(.body, design: .monospaced))
@@ -95,6 +95,5 @@ struct YamlCodePreviewView: View {
                 }
             }
         }
-        .navigationViewStyle(.stack)
     }
 }

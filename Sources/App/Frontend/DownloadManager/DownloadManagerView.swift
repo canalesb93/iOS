@@ -13,7 +13,7 @@ struct DownloadManagerView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: .zero) {
                 content
                 Spacer()
@@ -39,7 +39,6 @@ struct DownloadManagerView: View {
                 }
             }
         }
-        .navigationViewStyle(.stack)
     }
 
     @ViewBuilder

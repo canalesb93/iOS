@@ -212,7 +212,7 @@ struct ManageStorageView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ManageStorageView(viewModel: ManageStorageViewModel(
             paths: .rooted(at: URL(fileURLWithPath: NSTemporaryDirectory())),
             isCatalyst: false,

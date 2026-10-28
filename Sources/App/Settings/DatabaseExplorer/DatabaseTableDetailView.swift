@@ -222,7 +222,7 @@ struct DatabaseRowDetailView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         DatabaseTableDetailView(tableName: "hAAppEntity")
     }
 }

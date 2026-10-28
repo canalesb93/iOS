@@ -111,8 +111,7 @@ struct ClientCertificateView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ClientCertificateView(viewModel: ConnectionSettingsViewModel(server: ServerFixture.standard))
     }
-    .navigationViewStyle(.stack)
 }

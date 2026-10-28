@@ -174,7 +174,7 @@ struct CalendarDebugView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         CalendarDebugView(
             server: ServerFixture.standard,
             calendar: HACalendar(

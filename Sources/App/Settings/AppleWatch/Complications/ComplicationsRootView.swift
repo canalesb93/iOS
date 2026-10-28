@@ -51,10 +51,10 @@ struct ComplicationsRootView: View {
             }
         }
         .sheet(isPresented: $showAdd) {
-            NavigationView { WatchComplicationBuilderEditView(existing: nil) }
+            NavigationStack { WatchComplicationBuilderEditView(existing: nil) }
         }
         .sheet(item: $viewModel.editing) { config in
-            NavigationView { WatchComplicationBuilderEditView(existing: config) }
+            NavigationStack { WatchComplicationBuilderEditView(existing: config) }
         }
         .alert(item: $viewModel.reloadAlert) { alert in
             Alert(
@@ -137,7 +137,7 @@ struct ComplicationsRootView: View {
 }
 
 #Preview("Complications root") {
-    NavigationView { ComplicationsRootView() }
+    NavigationStack { ComplicationsRootView() }
 }
 
 extension ComplicationsRootView: SettingsScreenSearchable {

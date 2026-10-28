@@ -267,7 +267,7 @@ struct NotificationCategoryEditorView: View {
 
     @ViewBuilder
     private func editorSheet(for action: NotificationAction?) -> some View {
-        NavigationView {
+        NavigationStack {
             NotificationActionEditorView(
                 category: category,
                 action: action
@@ -283,7 +283,6 @@ struct NotificationCategoryEditorView: View {
                 showingNewAction = false
             }
         }
-        .navigationViewStyle(.stack)
     }
 
     // MARK: - Save / validation

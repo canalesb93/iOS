@@ -39,7 +39,7 @@ struct DatabaseExplorerView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         DatabaseExplorerView()
     }
 }

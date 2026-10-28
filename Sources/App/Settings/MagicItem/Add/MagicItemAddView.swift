@@ -54,7 +54,7 @@ struct MagicItemAddView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Group {
                 switch viewModel.selectedItemType {
                 case .entities:
@@ -106,7 +106,6 @@ struct MagicItemAddView: View {
             })
             #endif
         }
-        .navigationViewStyle(.stack)
         #if targetEnvironment(macCatalyst)
             .frame(minWidth: 540, minHeight: 720)
         #else

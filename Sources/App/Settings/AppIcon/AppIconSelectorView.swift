@@ -97,7 +97,7 @@ struct AppIconSelectorView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         AppIconSelectorView()
     }
 }

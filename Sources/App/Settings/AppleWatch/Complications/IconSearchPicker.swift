@@ -61,7 +61,7 @@ private struct IconSearchSheet: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(filteredIcons, id: \.self) { icon in
                 Button {
                     selectedIcon = icon
@@ -95,6 +95,5 @@ private struct IconSearchSheet: View {
                 }
             }
         }
-        .navigationViewStyle(.stack)
     }
 }

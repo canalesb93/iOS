@@ -17,7 +17,7 @@ struct WatchComplicationConfigurationSheet: View {
     private var currentFamily: WatchComplicationConfig.Family { viewModel.config.widgetFamily }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 entityValueSection
                 familySection
@@ -41,7 +41,6 @@ struct WatchComplicationConfigurationSheet: View {
                 }
             }
         }
-        .navigationViewStyle(.stack)
         .presentationDetents([.medium, .large], selection: $detent)
         .presentationDragIndicator(.visible)
     }

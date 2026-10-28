@@ -62,17 +62,16 @@ struct FolderDetailView: View {
                     }
                 }
             case .assistPrompt:
-                NavigationView {
+                NavigationStack {
                     AssistPromptMagicItemView(mode: .add) { itemToAdd in
                         viewModel.addItemToFolder(folderId: folderId, item: itemToAdd)
                     }
                 }
-                .navigationViewStyle(.stack)
             }
         }
         .sheet(isPresented: $showEditFolder) {
             if let folder {
-                NavigationView {
+                NavigationStack {
                     FolderEditView(folder: folder) { updatedFolder in
                         viewModel.updateFolder(updatedFolder)
                     }
@@ -135,5 +134,5 @@ struct FolderDetailView: View {
             ]
         ),
     ]
-    return NavigationView { FolderDetailView(folderId: "folder1", viewModel: vm) }
+    return NavigationStack { FolderDetailView(folderId: "folder1", viewModel: vm) }
 }

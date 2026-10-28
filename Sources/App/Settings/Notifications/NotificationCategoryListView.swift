@@ -126,7 +126,7 @@ struct NotificationCategoryListView: View {
 
     @ViewBuilder
     private func editorSheet(for category: NotificationCategory?) -> some View {
-        NavigationView {
+        NavigationStack {
             NotificationCategoryEditorView(category: category) { savedCategory in
                 if let saved = savedCategory {
                     saved.save()
@@ -135,7 +135,6 @@ struct NotificationCategoryListView: View {
                 showingNewCategory = false
             }
         }
-        .navigationViewStyle(.stack)
     }
 
     private func openHelp() {

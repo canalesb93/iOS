@@ -39,7 +39,7 @@ struct ServerActionPicker: View {
             fetchActions()
         }
         .sheet(isPresented: $showList) {
-            NavigationView {
+            NavigationStack {
                 ServerActionPickerList(
                     actions: actions,
                     isLoading: isLoading,

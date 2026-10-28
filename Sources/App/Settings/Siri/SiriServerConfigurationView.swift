@@ -91,7 +91,7 @@ struct SiriServerConfigurationView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         SiriServerConfigurationView(server: ServerFixture.standard)
     }
 }

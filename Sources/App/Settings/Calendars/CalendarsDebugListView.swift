@@ -75,7 +75,7 @@ struct CalendarsDebugListView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         CalendarsDebugListView(server: ServerFixture.standard)
     }
 }

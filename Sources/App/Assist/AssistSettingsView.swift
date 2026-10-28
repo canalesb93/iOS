@@ -27,7 +27,7 @@ struct AssistSettingsView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 startMode
                 muteToggle

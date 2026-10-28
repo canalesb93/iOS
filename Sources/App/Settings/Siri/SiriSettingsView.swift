@@ -57,7 +57,7 @@ struct SiriSettingsView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         SiriSettingsView()
     }
 }

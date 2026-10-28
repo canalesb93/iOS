@@ -16,10 +16,9 @@ struct ConnectionURLsHowItWorksLink: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         List {
             ConnectionURLsHowItWorksLink(server: ServerFixture.withRemoteConnection)
         }
     }
-    .navigationViewStyle(.stack)
 }

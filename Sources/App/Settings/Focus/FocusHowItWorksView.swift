@@ -90,8 +90,7 @@ struct FocusHowItWorksView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         FocusHowItWorksView()
     }
-    .navigationViewStyle(.stack)
 }

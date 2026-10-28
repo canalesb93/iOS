@@ -155,7 +155,7 @@ struct FolderEditView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         FolderEditView(
             folder: MagicItem(
                 id: "folder1",

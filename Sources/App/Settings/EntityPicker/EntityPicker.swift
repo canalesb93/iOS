@@ -90,7 +90,6 @@ struct EntityPicker: View {
             }
         }
         #endif
-        .navigationViewStyle(.stack)
         #if !targetEnvironment(macCatalyst)
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)

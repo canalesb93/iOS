@@ -12,7 +12,7 @@ struct DeeplinkView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 Section {
                     AppleLikeListTopRowHeader(
@@ -103,7 +103,6 @@ struct DeeplinkView: View {
                 viewModel.copyToClipboard()
             }
         }
-        .navigationViewStyle(.stack)
     }
 }
 

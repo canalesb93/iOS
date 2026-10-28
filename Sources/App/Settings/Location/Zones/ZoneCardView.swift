@@ -126,7 +126,7 @@ struct ZoneCardView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         List {
             ZoneCardView(
                 zone: LocationZoneItem(zone: AppZone(

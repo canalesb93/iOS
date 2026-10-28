@@ -43,7 +43,7 @@ struct IconPicker: View {
         })
         .buttonStyle(.plain)
         .sheet(isPresented: $showList) {
-            NavigationView {
+            NavigationStack {
                 List {
                     ForEach(icons.filter({ icon in
                         if searchTerm.count < 2 {

@@ -111,7 +111,7 @@ struct HealthSensorListView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         HealthSensorListView(server: ServerFixture.standard)
     }
 }

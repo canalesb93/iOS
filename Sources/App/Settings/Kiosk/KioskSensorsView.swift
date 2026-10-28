@@ -50,7 +50,7 @@ struct KioskSensorsView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         KioskSensorsView()
     }
 }

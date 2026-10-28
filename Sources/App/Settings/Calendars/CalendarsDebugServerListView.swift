@@ -38,7 +38,7 @@ struct CalendarsDebugServerListView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         CalendarsDebugServerListView()
     }
 }

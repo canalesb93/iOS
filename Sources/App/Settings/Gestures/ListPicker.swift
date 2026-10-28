@@ -203,7 +203,7 @@ struct ListPickerContentView: View {
 
 enum ListPickerPreview {
     static var standard: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ListPicker(
                     title: "Select Item",
@@ -228,7 +228,7 @@ enum ListPickerPreview {
     }
 
     static var searching: some View {
-        NavigationView {
+        NavigationStack {
             ListPickerContentView(
                 title: "Title 1",
                 selection: .constant(.init(id: "2", title: "aaaa")),
@@ -239,7 +239,7 @@ enum ListPickerPreview {
     }
 
     static var noResults: some View {
-        NavigationView {
+        NavigationStack {
             ListPickerContentView(
                 title: "Title 1",
                 selection: .constant(.init(id: "2", title: "aaaa")),
@@ -250,7 +250,7 @@ enum ListPickerPreview {
     }
 
     static var content: some View {
-        NavigationView {
+        NavigationStack {
             ListPickerContentView(
                 title: "Title 1",
                 selection: .constant(.init(id: "2", title: "aaaa")),

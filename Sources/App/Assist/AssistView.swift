@@ -133,7 +133,7 @@ struct AssistView: View {
     // MARK: - Configuration Persistence
 
     private var content: some View {
-        NavigationView {
+        NavigationStack {
             chatList
                 .navigationTitle("Assist")
                 .navigationBarTitleDisplayMode(.inline)
@@ -162,7 +162,6 @@ struct AssistView: View {
                     }
                 }
         }
-        .navigationViewStyle(.stack)
         // The bar is only reported to views that reach the edge it sits on, so the observer has to
         // run under the safe area it leaves.
         .background(VerticalBarObserver(hasVerticalBar: $hasVerticalBar).ignoresSafeArea())

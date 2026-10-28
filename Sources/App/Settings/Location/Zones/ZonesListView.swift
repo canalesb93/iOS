@@ -78,7 +78,7 @@ struct ZonesListView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ZonesListView(viewModel: LocationSettingsViewModel())
     }
 }

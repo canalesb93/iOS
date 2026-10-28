@@ -130,7 +130,7 @@ struct AssistPipelineAddList: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         AssistPipelineAddList { _ in }
     }
 }

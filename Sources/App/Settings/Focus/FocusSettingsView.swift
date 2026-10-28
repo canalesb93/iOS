@@ -124,7 +124,7 @@ extension FocusSettingsView: SettingsScreenSearchable {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         FocusSettingsView()
     }
 }

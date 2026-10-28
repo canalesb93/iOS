@@ -24,9 +24,9 @@ struct ClientCertificateImportFormSheet: UIViewControllerRepresentable {
     func updateUIViewController(_ controller: UIViewController, context: Context) {
         let coordinator = context.coordinator
         if let request, coordinator.presented == nil {
-            let sheet = UIHostingController(rootView: NavigationView {
+            let sheet = UIHostingController(rootView: NavigationStack {
                 ClientCertificateOnboardingView(onImport: request.complete(with:), onCancel: request.cancel)
-            }.navigationViewStyle(.stack))
+            })
             sheet.modalPresentationStyle = .formSheet
             sheet.isModalInPresentation = true
             controller.present(sheet, animated: true)

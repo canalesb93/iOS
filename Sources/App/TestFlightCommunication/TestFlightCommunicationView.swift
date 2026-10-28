@@ -11,7 +11,7 @@ struct TestFlightCommunicationView: View {
     @State private var didRecordView = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: DesignSystem.Spaces.five) {
                     header
@@ -35,7 +35,6 @@ struct TestFlightCommunicationView: View {
                 recordViewIfNeeded()
             }
         }
-        .navigationViewStyle(.stack)
     }
 
     private var header: some View {

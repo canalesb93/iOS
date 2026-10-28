@@ -63,17 +63,16 @@ struct CarPlayFolderDetailView: View {
                     }
                 }
             case .assistPrompt:
-                NavigationView {
+                NavigationStack {
                     AssistPromptMagicItemView(mode: .add) { itemToAdd in
                         viewModel.addItemToFolder(folderId: folderId, item: itemToAdd)
                     }
                 }
-                .navigationViewStyle(.stack)
             }
         })
         .sheet(isPresented: $showEditFolder) {
             if let folder {
-                NavigationView {
+                NavigationStack {
                     FolderEditView(folder: folder) { updatedFolder in
                         viewModel.updateFolder(updatedFolder)
                     }
