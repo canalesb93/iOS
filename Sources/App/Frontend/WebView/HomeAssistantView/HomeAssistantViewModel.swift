@@ -195,8 +195,9 @@ final class HomeAssistantViewModel: ObservableObject {
             .sink { [weak self] _ in
                 guard let self, navigation.isNativeSidebarEnabled, !nativeSidebar.drawer.isDockedLayout,
                       !Current.settingsStore.hasSeenNativeSidebarHint else { return }
-                Current.settingsStore.hasSeenNativeSidebarHint = true
-                nativeSidebar.drawer.peek()
+                if nativeSidebar.drawer.peek() {
+                    Current.settingsStore.hasSeenNativeSidebarHint = true
+                }
             }
             .store(in: &cancellables)
 
@@ -217,6 +218,14 @@ final class HomeAssistantViewModel: ObservableObject {
     /// Hooks a (possibly new) controller up to the native sidebar: its left edge drives the drawer and its menu
     /// button and `.showSidebar` gesture open it.
     private func connectNativeSidebar(to controller: WebViewController) {
+        // Left nil in the other styles, which is what sends the menu button, the edge and `.showSidebar` back to
+        // their upstream paths. A style change resets the frontend, so the new controller is connected afresh.
+        guard navigation.isNativeSidebarEnabled else {
+            controller.onShowNativeSidebar = nil
+            controller.nativeSidebarEdgePanHandler = nil
+            controller.updateNativeSidebarEdgeNavigation(isAtPanelRoot: true, isEnabled: false)
+            return
+        }
         controller.onShowNativeSidebar = { [weak self] in
             guard let self, navigation.isNativeSidebarEnabled else { return }
             let drawer = nativeSidebar.drawer

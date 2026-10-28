@@ -93,7 +93,7 @@ final class FrontendPageTransitionController {
         case let .pop(from):
             if interactivePop?.awaitingRoute == true {
                 finishInteractivePop()
-            } else if isEnabled, let image = snapshots[from] {
+            } else if isEnabled, interactivePop == nil, let image = snapshots[from] {
                 animatePop(leaving: image)
             }
         case .reset:
@@ -301,6 +301,7 @@ final class FrontendPageTransitionController {
             if commits {
                 commitInteractivePop()
             } else {
+                interactivePop = nil
                 cleanUp()
             }
         }

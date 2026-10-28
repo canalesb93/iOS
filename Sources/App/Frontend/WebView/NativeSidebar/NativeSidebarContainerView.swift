@@ -20,6 +20,9 @@ struct NativeSidebarContainerView<Sidebar: View, Content: View>: View {
     @ViewBuilder let content: () -> Content
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    /// Resets when SwiftUI cancels a drag without calling `onEnded` (a system gesture taking over, the app
+    /// leaving the foreground), so the drawer never stays parked mid-drag.
+    @GestureState private var isClosingDragActive = false
 
     var body: some View {
         GeometryReader { proxy in
@@ -62,6 +65,7 @@ struct NativeSidebarContainerView<Sidebar: View, Content: View>: View {
                     .simultaneousGesture(closeDragGesture, including: docked ? .none : .all)
 
                 content()
+                    .accessibilityHidden(!docked && drawer.isOpen)
                     .frame(width: size.width - dockedInset, height: size.height)
                     .clipShape(cardShape)
                     .overlay {
@@ -88,7 +92,6 @@ struct NativeSidebarContainerView<Sidebar: View, Content: View>: View {
                     }
                     .scaleEffect(1 - NativeSidebarLayout.contentScaleReduction * revealed, anchor: .leading)
                     .offset(x: dockedInset + progress * drawerWidth)
-                    .accessibilityHidden(!docked && drawer.isOpen)
             }
             .onAppear {
                 drawer.drawerWidth = drawerWidth
@@ -109,6 +112,16 @@ struct NativeSidebarContainerView<Sidebar: View, Content: View>: View {
                 }
             }
             .onChange(of: reduceMotion) { drawer.reduceMotion = $0 }
+            .onChange(of: isClosingDragActive) { isActive in
+                guard !isActive else { return }
+                // A drag that ended normally has already settled in `onEnded`; one turn later, anything
+                // still interacting was cancelled.
+                DispatchQueue.main.async {
+                    if drawer.isInteracting {
+                        drawer.cancelInteraction()
+                    }
+                }
+            }
         }
         .accessibilityAction(.escape) {
             if drawer.isOpen {
@@ -121,6 +134,7 @@ struct NativeSidebarContainerView<Sidebar: View, Content: View>: View {
     /// feed the drag's own motion back into it.
     private var closeDragGesture: some Gesture {
         DragGesture(minimumDistance: 8, coordinateSpace: .global)
+            .updating($isClosingDragActive) { _, state, _ in state = true }
             .onChanged { value in
                 guard drawer.isOpen || drawer.isInteracting else { return }
                 let translation = value.translation

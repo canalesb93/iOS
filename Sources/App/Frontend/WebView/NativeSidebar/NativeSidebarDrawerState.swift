@@ -51,8 +51,10 @@ final class NativeSidebarDrawerState: ObservableObject {
     }
 
     /// Nudges the closed card aside and lets it fall back: a one-time hint that the drawer is behind it.
-    func peek() {
-        guard !isOpen, !isInteracting, !reduceMotion, progress == 0 else { return }
+    /// Returns whether it played.
+    @discardableResult
+    func peek() -> Bool {
+        guard !isOpen, !isInteracting, !reduceMotion, progress == 0 else { return false }
         withAnimation(DesignSystem.Motion.spring(duration: 0.32, bounce: 0)) {
             progress = 0.14
         }
@@ -62,6 +64,7 @@ final class NativeSidebarDrawerState: ObservableObject {
                 self.progress = 0
             }
         }
+        return true
     }
 
     // MARK: - Interactive
