@@ -69,8 +69,10 @@ final class FrontendPageTransitionController {
         interactivePop != nil
     }
 
-    /// The sidebar is about to switch panels with `replace: true`.
+    /// The sidebar is about to switch panels with `replace: true`: hold a picture of the outgoing panel over the
+    /// live view and dissolve it once the new one is in, instead of letting the page swap in one frame.
     func expectReplace() {
+        beginPanelCrossfade()
         history.expectsReplace = true
         replaceExpiryWorkItem?.cancel()
         // Re-selecting the panel already on screen never reports a change; don't let the flag outlive it.
@@ -96,6 +98,7 @@ final class FrontendPageTransitionController {
             }
         case .reset:
             finishInteractivePop()
+            finishPanelCrossfade()
         case .none:
             break
         }
@@ -103,6 +106,38 @@ final class FrontendPageTransitionController {
             pruneSnapshots()
             scheduleSettledSnapshot()
         }
+    }
+
+    // MARK: - Panel switches
+
+    private var panelCrossfadeView: UIView?
+
+    private func beginPanelCrossfade() {
+        guard isEnabled, !reduceMotion, interactivePop == nil, let webView, let container,
+              panelCrossfadeView == nil,
+              let snapshot = webView.snapshotView(afterScreenUpdates: false) else { return }
+        finishRunningAnimation()
+        snapshot.frame = untransformedFrame(of: webView)
+        snapshot.isUserInteractionEnabled = false
+        container.insertSubview(snapshot, aboveSubview: webView)
+        panelCrossfadeView = snapshot
+        // Re-selecting the panel on screen never reports a route change.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self, weak snapshot] in
+            guard let snapshot, self?.panelCrossfadeView === snapshot else { return }
+            self?.finishPanelCrossfade()
+        }
+    }
+
+    private func finishPanelCrossfade() {
+        guard let view = panelCrossfadeView else { return }
+        panelCrossfadeView = nil
+        UIView.animate(
+            withDuration: 0.28,
+            delay: 0.1,
+            options: [.curveEaseInOut, .allowUserInteraction],
+            animations: { view.alpha = 0 },
+            completion: { _ in view.removeFromSuperview() }
+        )
     }
 
     // MARK: - Snapshots
