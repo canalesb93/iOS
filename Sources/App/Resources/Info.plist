@@ -154,6 +154,8 @@
 		<string>ReloadWidgetsAppIntent</string>
 		<string>ScriptAppIntent</string>
 	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
