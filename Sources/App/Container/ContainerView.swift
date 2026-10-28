@@ -9,6 +9,10 @@ struct ContainerView: View {
     /// This scene's Settings presenter, owned by `ConditionalContainerView`.
     @ObservedObject var appSettings: AppSettingsPresenter
     @State private var coordinator = AppContainerCoordinator()
+    /// The server on screen as of the last render, so a switch between two servers can be told apart from
+    /// arriving from onboarding (which the launch splash already animates).
+    @State private var displayedServerID: String?
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         Group {
@@ -24,6 +28,8 @@ struct ContainerView: View {
                 RecoveredServerReauthView(server: server, state: state)
             }
         }
+        .animation(serverSwitchAnimation, value: webViewServerID)
+        .onChange(of: webViewServerID) { displayedServerID = $0 }
         .navigationTitle(" ") // Remove default macOS title
         .onAppear {
             coordinator.onOpenServer = { state.showWebView(for: $0) }
@@ -35,6 +41,7 @@ struct ContainerView: View {
             coordinator.onShowDownloadManager = { viewModel.presentDownloadManager($0) }
             coordinator.onShowOnboardingPermissions = { viewModel.presentOnboardingPermissions(server: $0, steps: $1) }
             Current.sceneManager.registerAppCoordinator(coordinator)
+            displayedServerID = webViewServerID
             fadeOutLaunchSplashIfNeeded(for: state.screen)
         }
         .onChange(of: state.screen) { screen in
@@ -88,6 +95,23 @@ struct ContainerView: View {
             Current.sceneManager.setWebViewController(webViewController)
         }
         .id(server.identifier.rawValue)
+        // Switching servers swaps the whole frontend: the outgoing one recedes while the new one settles in.
+        .transition(reduceMotion ? .opacity : .asymmetric(
+            insertion: .scale(scale: 1.04).combined(with: .opacity),
+            removal: .scale(scale: 0.94).combined(with: .opacity)
+        ))
+    }
+
+    private var webViewServerID: String? {
+        if case let .webView(server, _) = state.screen {
+            return server.identifier.rawValue
+        }
+        return nil
+    }
+
+    private var serverSwitchAnimation: Animation? {
+        guard let displayedServerID, let webViewServerID, displayedServerID != webViewServerID else { return nil }
+        return DesignSystem.Motion.smooth
     }
 
     /// The recovered-server screens have no Home Assistant logo for the launch splash to morph into, so

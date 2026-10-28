@@ -51,6 +51,26 @@ final class NativeSidebarTourTests: XCTestCase {
         settle(1)
         snapshot("05-closed")
 
+        // Below a panel's top level the left edge goes back instead, with WebKit's interactive swipe.
+        if menu.waitForExistence(timeout: 5) {
+            menu.tap()
+            settle(1)
+        }
+        let haSettings = app.buttons["Settings"]
+        if haSettings.waitForExistence(timeout: 5) {
+            haSettings.tap()
+            settle(3)
+            let areas = flow.webElement(labelContaining: "Areas")
+            if areas.waitForExistence(timeout: 10) {
+                areas.tap()
+                settle(3)
+                snapshot("07-subpage")
+                edge.press(forDuration: 0.05, thenDragTo: middle, withVelocity: .slow, thenHoldForDuration: 0.3)
+                settle(2)
+                snapshot("08-after-back-swipe")
+            }
+        }
+
         // App settings zoom out of the gear.
         if menu.waitForExistence(timeout: 5) {
             menu.tap()
