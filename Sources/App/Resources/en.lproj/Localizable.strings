@@ -1266,6 +1266,13 @@ This server requires a client certificate (mTLS) but the operation was cancelled
 "mtls.beta.info" = "This is a beta feature, if you experience any issues, please report them using the button below.\
 \
 Currently mTLS is only supported on iOS 17+, it may present issues related to displaying notification attachments, Assist TTS audio and it will not fully work on Apple Watch.";
+"native_notifications.dismiss" = "Dismiss";
+"native_notifications.dismiss_all" = "Dismiss All";
+"native_notifications.dismiss_all.confirmation_title" = "Dismiss all notifications?";
+"native_notifications.dismiss_failed.title" = "Couldn’t dismiss notification";
+"native_notifications.empty.description" = "You’re all caught up. New notifications from Home Assistant will show up here.";
+"native_notifications.empty.title" = "No notifications";
+"native_notifications.title" = "Notifications";
 "navBar.close" = "Close";
 "network.error.no_active_url.body" = "Open companion app settings and check your server settings, internal URL will only be used if local network is defined (SSID), if you are using VPN try setting your external URL as the same as internal URL.";
 "network.error.no_active_url.description" = "“%@” has no URL this device can use right now.";
