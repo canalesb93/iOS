@@ -11,7 +11,7 @@ DD="${DD:-$HOME/dev/ha-ios-dd-device}"
 # Team and prefix go on the command line: a few targets pin the upstream team in the project file itself.
 RBENV_VERSION="${RBENV_VERSION:-2.7.5}" xcodebuild -project HomeAssistant.xcodeproj -scheme App-Debug \
   -configuration "$CONFIGURATION" -destination "id=${DEVICE_ID:?device UDID}" -derivedDataPath "$DD" \
-  -allowProvisioningUpdates DEVELOPMENT_TEAM="$TEAM" BUNDLE_ID_PREFIX="$PREFIX" build 2>&1 \
+  -allowProvisioningUpdates -allowProvisioningDeviceRegistration DEVELOPMENT_TEAM="$TEAM" BUNDLE_ID_PREFIX="$PREFIX" build 2>&1 \
   | tee "$DD/last-build.log" | grep -E "error:|BUILD (SUCCEEDED|FAILED)" | sort -u | head -40
 grep -q "BUILD SUCCEEDED" "$DD/last-build.log" || exit 1
 APP=$(find "$DD/Build/Products/$CONFIGURATION-iphoneos" -maxdepth 1 -name "*.app" | head -1)
